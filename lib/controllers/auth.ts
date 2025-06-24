@@ -15,11 +15,11 @@ export async function findOrCreateAuth(email: string): Promise<Auth> {
     const newAuth = await Auth.createNewAuth({
       email: cleanEmail,
       userId: newUser.ref.id,
-      code: "",
-      expires: new Date(),
+      // code: "",
+      // expires: new Date(),
     });
+    return newAuth;
   }
-  return auth;
 }
 export async function sendCode(email: string) {
   const auth = await findOrCreateAuth(email);
