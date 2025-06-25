@@ -2,6 +2,7 @@ import { User } from "lib/user";
 import { Auth } from "lib/auth";
 import { addMinutes } from "date-fns/addMinutes";
 import gen from "random-seed";
+import { sendMail } from "lib/controllers/mail";
 
 var seed = "unapruebita";
 var random = gen.create(seed);
@@ -29,5 +30,7 @@ export async function sendCode(email: string) {
   auth.data.code = code;
   auth.data.expires = twentyMinutesFromNow;
   await auth.push();
+  await sendMail(email, auth.data.code);
+
   return auth;
 }

@@ -2,9 +2,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { authMiddleware } from "lib/middlewares";
 import { User } from "lib/user";
 async function handler(req: NextApiRequest, res: NextApiResponse, token) {
-  const user = new User(token.userId);
+  const userId = token.userId;
+  const user = new User(userId);
   await user.pull();
-  res.send(user.data);
+  res.status(200).send({ user: user.data });
 }
 
 export default authMiddleware(handler);

@@ -36,4 +36,19 @@ export class Auth {
     newAuth.data = data;
     return newAuth;
   }
+  static async findByEmailAndCode(email: string, code: number) {
+    const cleanEmail = email.toLowerCase().trim();
+    const result = await collection
+      .where("email", "==", cleanEmail)
+      .where("code", "==", code)
+      .get();
+    if (result.docs.length) {
+      const first = result.docs[0];
+      const newAuth = new Auth(first.id);
+      newAuth.data = first.data();
+      return newAuth;
+    } else {
+      return null;
+    }
+  }
 }
