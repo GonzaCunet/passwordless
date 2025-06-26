@@ -1,3 +1,4 @@
+import { isAfter } from "date-fns";
 import { firestore } from "./firestore";
 
 const collection = firestore.collection("auth");
@@ -17,6 +18,12 @@ export class Auth {
 
   async push() {
     this.ref.update(this.data);
+  }
+
+  isCodeExpired() {
+    const now = new Date();
+    const expired = this.data.expires.toDate();
+    return isAfter(now, expired);
   }
   static async findByEmail(email: string) {
     const cleanEmail = email.trim().toLowerCase();

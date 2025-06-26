@@ -32,5 +32,5 @@ export async function sendCode(email: string) {
   await auth.push();
   await sendMail(email, auth.data.code);
 
-  return auth;
+  return true;
 }
